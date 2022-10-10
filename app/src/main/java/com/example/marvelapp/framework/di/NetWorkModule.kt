@@ -1,7 +1,6 @@
 package com.example.marvelapp.framework.di
 
-import android.os.Build
-import com.example.core.data.network.interceptor.AuhotizationInterceptor
+import com.example.marvelapp.framework.network.interceptor.AuhotizationInterceptor
 import com.example.marvelapp.BuildConfig
 import dagger.Module
 import dagger.Provides
