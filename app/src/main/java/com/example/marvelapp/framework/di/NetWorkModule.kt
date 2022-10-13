@@ -35,7 +35,7 @@ object NetWorkModule {
     fun provideAuthorizationInterceptor(): AuhotizationInterceptor {
         return AuhotizationInterceptor(
             publicKey = BuildConfig.PUBLIC_KEY,
-            privatEKey = BuildConfig.PRIVATE_KEY,
+            privateKey = BuildConfig.PRIVATE_KEY,
             calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
         )
     }
