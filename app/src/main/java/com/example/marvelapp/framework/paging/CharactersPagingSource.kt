@@ -14,6 +14,7 @@ class CharactersPagingSource(
     private val query: String
 ) : PagingSource<Int, Character>() {
 
+    @Suppress("TooGenericExceptionCaught")
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Character> {
 
         return try {
@@ -34,7 +35,7 @@ class CharactersPagingSource(
             val totalCharacter = response.data.total
 
             LoadResult.Page(
-                data = response.data.result.map { it.toCharacterModel() },
+                data = response.data.results.map { it.toCharacterModel() },
                 prevKey = null,
                 nextKey = if (responseOffset < totalCharacter) {
                     responseOffset + LIMIT
