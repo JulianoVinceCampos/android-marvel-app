@@ -8,7 +8,7 @@ import java.util.Calendar
 
 class AuhotizationInterceptor(
     private val publicKey: String,
-    private val privatEKey: String,
+    private val privateKey: String,
     private val calendar: Calendar
 ) : Interceptor {
 
@@ -19,7 +19,7 @@ class AuhotizationInterceptor(
 
         val timeStemp =
             (calendar.timeInMillis / 1000L).toString() // Apenas conveter timme para segundos
-        val hash = "$timeStemp$privatEKey$publicKey".md5()
+        val hash = "$timeStemp$privateKey$publicKey".md5()
         val newUrl = requestUrl.newBuilder()
             .addQueryParameter(QUERY_PARAMETER_TS, timeStemp)
             .addQueryParameter(QUERY_PARAMETER_API_KEY, publicKey)
@@ -40,6 +40,6 @@ class AuhotizationInterceptor(
     companion object {
         private const val QUERY_PARAMETER_TS = "ts"
         private const val QUERY_PARAMETER_API_KEY = "apikey"
-        private const val QUERY_PARAMETER_HASH = "has"
+        private const val QUERY_PARAMETER_HASH = "hash"
     }
 }
