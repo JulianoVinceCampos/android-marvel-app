@@ -5,10 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.core.domain.model.Character
 import com.example.marvelapp.R
 import com.example.marvelapp.databinding.FragmentCharactersBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CharactersFragment : Fragment() {
@@ -16,12 +20,18 @@ class CharactersFragment : Fragment() {
     private var _binding: FragmentCharactersBinding? = null
     private val binding: FragmentCharactersBinding get() = _binding!!
 
+    private val viewModel: CharacterViewModel by viewModels()
+
     private val characterAdapter = CharacterAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FragmentCharactersBinding.inflate(inflater, container, false).apply {
+    ) = FragmentCharactersBinding.inflate(
+        inflater,
+        container,
+        false)
+        .apply {
         _binding = this
     }.root
 
@@ -29,34 +39,11 @@ class CharactersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initCharactersAdapter()
 
-        characterAdapter.submitList(
-            listOf(
-                Character(
-                    "3D-Man",
-                    "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
-                ),
-                Character(
-                    "3D-Man",
-                    "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
-                ),
-                Character(
-                    "3D-Man",
-                    "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
-                ),
-                Character(
-                    "3D-Man",
-                    "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
-                ),
-                Character(
-                    "3D-Man",
-                    "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
-                ),
-                Character(
-                    "3D-Man",
-                    "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
-                )
-            )
-        )
+        lifecycleScope.launch {
+            viewModel.charactersPagingData("").collect { pagingData ->
+                characterAdapter.submitData(pagingData)
+            }
+        }
     }
 
     private fun initCharactersAdapter() {
