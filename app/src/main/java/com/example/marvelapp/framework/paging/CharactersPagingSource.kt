@@ -1,6 +1,5 @@
 package com.example.marvelapp.framework.paging
 
-import androidx.paging.LoadState
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.core.data.repository.CharactersRemoteDataSource
