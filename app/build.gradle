@@ -31,14 +31,38 @@ android {
         buildConfigField "String", "PRIVATE_KEY", apikeyProperties['PRIVATE_KEY']
         buildConfigField "String", "BASE_URL", '"https://gateway.marvel.com/v1/public/"'
 
+    }
 
+    signingConfigs {
+        release {
+            storeFile file('$rootDir/store/marvel_app_key_store.jks')
+            storePassword '92155456'
+            keyPassword '92155456'
+            keyAlias 'marvel-app'
+        }
     }
 
     buildTypes {
+
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            applicationIdSuffix '.debug'
+            debuggable true
+        }
+
+        staging {
+            initWith debug
+            minifyEnabled true
+            applicationIdSuffix '.staging'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'proguard-rules-staging.pro'
+        }
+
     }
 
     compileOptions {
@@ -53,6 +77,8 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+
 }
 
 dependencies {
