@@ -1,6 +1,7 @@
 package com.example.marvelapp.presetation.characters
 
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -59,12 +60,11 @@ class CharactersFragmentTest {
             enqueue(MockResponse().setBody("characters_p2.json".asJsonString()))
         }
 
-
         //Action
         onView(
             withId(R.id.recycler_characters)
         ).perform(
-            RecyclerViewActions.scrollToPosition<CharacterViewHolder>(20)
+            RecyclerViewActions.actionOnItemAtPosition<CharacterViewHolder>(20,click())
         )
 
         //Assert
