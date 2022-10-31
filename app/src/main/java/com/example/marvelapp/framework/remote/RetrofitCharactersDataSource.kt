@@ -2,8 +2,10 @@ package com.example.marvelapp.framework.remote
 
 import com.example.core.data.repository.CharactersRemoteDataSource
 import com.example.core.domain.model.CharacterPaging
+import com.example.core.domain.model.Comic
 import com.example.marvelapp.framework.MarvelApi
 import com.example.marvelapp.framework.network.response.toCharacterModel
+import com.example.marvelapp.framework.network.response.toComicModel
 import javax.inject.Inject
 
 class RetrofitCharactersDataSource @Inject constructor(
@@ -16,6 +18,12 @@ class RetrofitCharactersDataSource @Inject constructor(
             it.toCharacterModel()
         }
         return CharacterPaging(data.offset, data.total, characters)
+    }
+
+    override suspend fun fetComics(characterId: Int): List<Comic> {
+        return marvelApi.getComics(characterId).data.results.map {
+            it.toComicModel()
+        }
     }
 
 }
