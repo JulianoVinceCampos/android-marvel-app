@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 
-abstract class UseCase<in P, R> {
+abstract class UseCase<in P, out R> {
 
     operator fun invoke(params: P): Flow<ResultStatus<R>> = flow {
         emit(ResultStatus.Loading)
@@ -13,6 +13,6 @@ abstract class UseCase<in P, R> {
         emit(ResultStatus.Error(throwable))
     }
 
-    protected abstract fun doWork(params: P): ResultStatus<R>
+    protected abstract suspend fun doWork(params: P): ResultStatus<R>
 
 }
