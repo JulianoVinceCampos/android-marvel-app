@@ -5,6 +5,6 @@ import br.com.julianovince.core.domain.model.Character
 
 interface CharactersRepository {
 
-    fun getCharacters(query: String): PagingSource<Int,Character>
+    fun getCharacters(query: String): PagingSource<Int, Character>
 
 }
